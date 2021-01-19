@@ -1,4 +1,4 @@
-package com.zho.sparkrepartition
+package com.zho.sparkutils.sparkrepartition
 
 import org.apache.spark.Partitioner
 
