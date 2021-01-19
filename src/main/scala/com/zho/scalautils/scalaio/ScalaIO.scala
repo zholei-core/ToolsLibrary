@@ -7,7 +7,7 @@ import scala.io.{BufferedSource, Source}
 object ScalaIO {
   def main(args: Array[String]): Unit = {
     // 在 resources 目录中 获取数据文件路径
-    val dataUrl: URL = this.getClass.getClassLoader.getResource("test.txt")
+    val dataUrl: URL = this.getClass.getClassLoader.getResource("data.txt")
     // 根据路径加载 文件数据
     val data: BufferedSource = Source.fromURL(dataUrl)
     // 获取文件数据里的 所有行 返回数据集合
