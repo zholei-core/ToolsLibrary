@@ -9,7 +9,11 @@
     <version>v1.0</version>
 
     <properties>
-
+        <scala.version>2.12</scala.version>
+        <hadoop.version>3.2.1</hadoop.version>
+        <spark.version>3.0.1</spark.version>
+        <flink.version>1.11.2</flink.version>
+        <redis.version>2.9.0</redis.version>
     </properties>
 
     <dependencies>
@@ -27,15 +31,14 @@
             <version>2.7.0</version>
         </dependency>
 
-        <!-- fastjson 相关-->
-        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <!-- flink 相关-->
+        <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-connector-kafka -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.68</version>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-kafka_2.12</artifactId>
+            <version>${flink.version}</version>
         </dependency>
 
-        <!-- flink 相关-->
         <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-scala -->
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -105,6 +108,21 @@
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
             <version>3.2.1</version>
+        </dependency>
+
+        <!-- Redis 相关依赖 -->
+        <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${redis.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.68</version>
         </dependency>
 
         <!-- Log4j 相关依赖 -->
