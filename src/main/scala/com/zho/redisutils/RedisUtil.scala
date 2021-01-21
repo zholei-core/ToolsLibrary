@@ -9,8 +9,9 @@ import redis.clients.jedis.{JedisPool, Response}
 object RedisUtil {
   val password = ""
   val host = ""
-  val port = ""
-  val timeout = ""
+  val port = 6379
+  val timeout = 10000
+  new RedisUtil().init(host,port,timeout,password)
 }
 
 class RedisUtil {
