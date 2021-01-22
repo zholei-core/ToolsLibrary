@@ -14,6 +14,7 @@
         <spark.version>3.0.1</spark.version>
         <flink.version>1.11.2</flink.version>
         <redis.version>2.9.0</redis.version>
+        <kafka.version>2.7.0</kafka.version>
     </properties>
 
     <dependencies>
@@ -22,13 +23,6 @@
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
             <version>2.12.8</version>
-        </dependency>
-
-        <!-- kafka 相关-->
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <version>2.7.0</version>
         </dependency>
 
         <!-- flink 相关-->
@@ -60,7 +54,7 @@
             <version>1.11.2</version>
         </dependency>
 
-        <!-- Spark 相关依赖 -->
+        <!-- Spark 相关依赖 Start-->
         <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql -->
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -87,8 +81,24 @@
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-hive_2.12</artifactId>
             <version>3.0.1</version>
-
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-streaming-kafka-0-10 -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka-0-10_2.12</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+
+        <!-- Spark 相关依赖 End-->
+
+        <!-- kafka 相关 Start-->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>${kafka.version}</version>
+        </dependency>
+        <!-- kafka 相关 End-->
 
         <!-- Hadoop 相关-->
         <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-client -->
@@ -110,7 +120,7 @@
             <version>3.2.1</version>
         </dependency>
 
-        <!-- Redis 相关依赖 -->
+        <!-- Redis 相关依赖 Start-->
         <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
         <dependency>
             <groupId>redis.clients</groupId>
@@ -124,6 +134,7 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.68</version>
         </dependency>
+        <!-- Redis 相关依赖 End-->
 
         <!-- Log4j 相关依赖 -->
         <dependency>
