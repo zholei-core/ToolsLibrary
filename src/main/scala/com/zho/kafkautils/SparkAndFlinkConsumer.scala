@@ -7,11 +7,9 @@ import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.environment.CheckpointConfig
 import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer
-import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.SparkConf
-import org.apache.spark.rdd.RDD
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.streaming.kafka010.{ConsumerStrategies, ConsumerStrategy, HasOffsetRanges, KafkaUtils, LocationStrategies, OffsetRange}
 
@@ -28,7 +26,7 @@ class SparkAndFlinkConsumer {
       "bootstrap.servers" -> "localhost:9092,anotherhost:9092",
       "group.id" -> "use_group_id_stream",
       "auto.offset.reset" -> "latest",
-      "enable.auto.commit" -> (false),
+      "enable.auto.commit" -> false,
       "key.deserializer" -> classOf[StringDeserializer],
       "value.deserializer" -> classOf[StringDeserializer]
     )
@@ -71,10 +69,10 @@ class SparkAndFlinkConsumer {
         *@param fromOffset包含起始偏移量
         *@param untilOffset独占结束偏移量
          */
-        range.topic
-        range.partition
-        range.fromOffset
-        range.untilOffset
+//        range.topic
+//        range.partition
+//        range.fromOffset
+//        range.untilOffset
       })
     })
   }
