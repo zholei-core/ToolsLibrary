@@ -135,6 +135,23 @@
             <version>1.2.68</version>
         </dependency>
         <!-- Redis 相关依赖 End-->
+        <!-- Jackson 相关依赖 Start-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <!-- Jackson 相关依赖 End-->
 
         <!-- Log4j 相关依赖 -->
         <dependency>

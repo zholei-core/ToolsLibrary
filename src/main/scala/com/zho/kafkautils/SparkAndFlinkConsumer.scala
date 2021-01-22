@@ -18,6 +18,7 @@ object SparkAndFlinkConsumer {
 }
 
 class SparkAndFlinkConsumer {
+/*
 
   def sparkConsumer(): Unit = {
     val ssc = new StreamingContext(new SparkConf().setMaster("local[2]").setAppName("Test"), Seconds(2))
@@ -97,5 +98,6 @@ class SparkAndFlinkConsumer {
     text.print()
     env.execute(this.getClass.getSimpleName.stripPrefix("$"))
   }
+*/
 
 }

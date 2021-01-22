@@ -8,11 +8,12 @@ import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer
 import org.apache.flink.streaming.connectors.kafka.internals.KeyedSerializationSchemaWrapper
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 
-object SparkAndFlinkProducer extends App {
+object SparkAndFlinkProducer{
 
 }
 
 class SparkAndFlinkProducer {
+/*
 
   def sparkProducer(): Unit = {
 
@@ -64,5 +65,6 @@ class SparkAndFlinkProducer {
     env.execute(this.getClass.getSimpleName.stripPrefix("$"))
   }
 
+*/
 
 }
