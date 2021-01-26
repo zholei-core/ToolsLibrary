@@ -4,11 +4,15 @@ import java.io.IOException
 
 import com.zho.dynamicloadutils.DynamicPropsFileUtil
 import org.apache.http.HttpHost
-import org.elasticsearch.client.indices.GetMappingsRequest
+import org.codehaus.jackson.JsonNode
+import org.codehaus.jackson.map.ObjectMapper
+import org.elasticsearch.client.indices.{GetMappingsRequest, GetMappingsResponse}
 import org.elasticsearch.client.{RequestOptions, RestClient, RestHighLevelClient}
+import org.elasticsearch.cluster.metadata.MappingMetaData
 import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.mutable
+import scala.collection.JavaConverters._
 
 /**
  * Author:zholei
@@ -37,7 +41,12 @@ class EsHighClientUtils {
     )
   }
 
-  // 获取 ES Mappings Data
+  /**
+   * 通过 算子 解析 ES 中索引列的集合
+   *
+   * @param client ES 连接客户端
+   * @return Map[索引名称，List[索引对应的列信息] ]
+   */
   def getEsMappingsData(client: RestHighLevelClient): mutable.Map[String, List[String]] = {
 
     var idxNameAndColsMap = mutable.Map.empty[String, List[String]]
@@ -76,7 +85,50 @@ class EsHighClientUtils {
       })
     } catch {
       case io: IOException => logger.error("IOException", io)
-      case _ =>
+      case e: Exception => logger.error("OtherException", e)
+    } finally {
+      if (client != null)
+        client.close()
+    }
+    idxNameAndColsMap
+
+  }
+
+  /**
+   * 通过 Jackson 解析 ES 中索引列的集合
+   *
+   * @param client ES 连接客户端
+   * @return Map[索引名称，List[索引对应的列信息] ]
+   */
+  def getEsMappingsDataJackson(client: RestHighLevelClient): mutable.Map[String, List[String]] = {
+
+    var idxNameAndColsMap = mutable.Map.empty[String, List[String]]
+    val jackson = new ObjectMapper()
+    try {
+
+      val request: GetMappingsRequest = new GetMappingsRequest()
+      val response: GetMappingsResponse = client.indices().getMapping(request, RequestOptions.DEFAULT)
+      val mappings = response.mappings()
+      val mapkeys = mappings.keySet().toArray
+      // 根据 索引名集合 获取对应 索引列信息
+      mapkeys.foreach(idxKeyName => {
+        // 根据索引名称 获取其属性 Mapping 信息
+        val idxMapping: MappingMetaData = mappings.get(idxKeyName)
+
+        // 将  Mapping 信息 通过 Jackson 转换为Json  , 并获取列信息集合
+        val idxColsInfo = idxMapping.source().toString
+        val jsonNode = jackson.readTree(idxColsInfo)
+        val propsColsInfo: JsonNode = jsonNode.path("properties")
+        val idxColsInfoList = propsColsInfo.getFieldNames.asScala.toList
+
+        // 批量将数据存入Map 集合中  Map[String,List[String]]
+        idxNameAndColsMap.+=((idxKeyName.toString, idxColsInfoList))
+        // 数据控制台 输出
+        //        println(idxKeyName.toString + " --> " + idxColsInfo)
+      })
+    } catch {
+      case io: IOException => logger.error("IOJacksonException", io)
+      case e: Exception => logger.error("OtherJacksonException", e)
     } finally {
       if (client != null)
         client.close()
