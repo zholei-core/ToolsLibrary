@@ -1,29 +1,27 @@
 package com.zho.jsonutils
 
-import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import org.codehaus.jackson.map.ObjectMapper
+import java.io.IOException
 
-import scala.beans.BeanProperty
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.JsonNode
 
 object JacksonUtil {
   def main(args: Array[String]): Unit = {
-    // https://www.cnblogs.com/lone5wolf/p/10940869.html
-    try {
-      val json = "{\"name\":\"小民\",\"age\":20,\"birthday\":\"844099200000\",\"email\":\"xiaomin@sina.com\"}"
-      val mapper = new ObjectMapper()
-      //    mapper.registerModule(DefaultScalaModule)
 
-      val value: Any = mapper.readValue(json, classOf[JacksonUtils])
-      println(value)
+    try {
+      val objectMapper = new ObjectMapper()
+      val str = "{\"data\":{\"birth_day\":7,\"birth_month\":6},\"errcode\":0,\"msg\":\"ok\",\"ret\":0}"
+      val data: JsonNode = objectMapper.readTree(str).path("data")
+      println(data.get("birth_day").asInt())
+
+    } catch {
+      case io: IOException =>
     }
   }
 
 
 }
 
-case class JacksonUtils(
-                        @BeanProperty var name: String = null,
-                        @BeanProperty var age: Integer = null,
-                        @BeanProperty var birthday: String = null,
-                        @BeanProperty var email: String = null
-                      )
+class JacksonUtil {
+
+}

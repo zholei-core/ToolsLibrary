@@ -15,6 +15,7 @@
         <flink.version>1.11.2</flink.version>
         <redis.version>2.9.0</redis.version>
         <kafka.version>2.7.0</kafka.version>
+        <es.version>6.8.13</es.version>
     </properties>
 
     <dependencies>
@@ -53,6 +54,7 @@
             <artifactId>flink-clients_2.12</artifactId>
             <version>1.11.2</version>
         </dependency>
+        <!-- Flink 相关依赖 End-->
 
         <!-- Spark 相关依赖 Start-->
         <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql -->
@@ -89,7 +91,6 @@
             <artifactId>spark-streaming-kafka-0-10_2.12</artifactId>
             <version>3.0.1</version>
         </dependency>
-
         <!-- Spark 相关依赖 End-->
 
         <!-- kafka 相关 Start-->
@@ -100,7 +101,7 @@
         </dependency>
         <!-- kafka 相关 End-->
 
-        <!-- Hadoop 相关-->
+        <!-- Hadoop 相关 Start-->
         <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-client -->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
@@ -119,6 +120,20 @@
             <artifactId>hadoop-common</artifactId>
             <version>3.2.1</version>
         </dependency>
+        <!-- Hadoop 相关 End-->
+
+        <!-- Elasticsearch 相关 Start-->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-client</artifactId>
+            <version>6.8.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>6.8.13</version>
+        </dependency>
+        <!-- Elasticsearch 相关 End-->
 
         <!-- Redis 相关依赖 Start-->
         <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
@@ -135,6 +150,7 @@
             <version>1.2.68</version>
         </dependency>
         <!-- Redis 相关依赖 End-->
+
         <!-- Jackson 相关依赖 Start-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
