@@ -1,7 +1,9 @@
 package com.zho.esutils
 
+import java.util
 import java.util.Date
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.elasticsearch.action.ActionListener
 import org.elasticsearch.action.index.{IndexRequest, IndexResponse}
 import org.elasticsearch.client.{RequestOptions, RestHighLevelClient}
@@ -11,6 +13,11 @@ object RestIndexRequestUtil {
 
 }
 
+/**
+ * 1、JSON 数据格式 存入 ES
+ * 2、Map 数据格式 存入 ES
+ * 3、XContentBuilder 数据格式 存入 ES
+ */
 class RestIndexRequestUtil {
 
   /**
@@ -35,11 +42,17 @@ class RestIndexRequestUtil {
 
     /** ********************** JSON 数据格式 存入 ES End *****************************************/
     /** ********************** Map 数据格式 存入 ES Start ****************************************/
-    import scala.collection.mutable
-    val mapData = mutable.Map.empty[String, Object]
-    mapData.+=(("map_user", "Ralph"))
-    mapData.+=(("map_post_date", "2020-01-28"))
-    indexRequest.source(mapData)
+    /*
+    此处 Map 集合 采用 util 类库下的 HashMap 集合 只有这个方案 可以通过 Jackson 转换为 JSON
+    Scala 的Map 集合 不支持 Jackson 转换，未到找 其对应的解决方案
+    */
+    val mapData = new util.HashMap[String, Object]()
+    mapData.put("map_user", "Ralph")
+    mapData.put("map_post_date", "2020-01-28")
+    //  hashMap 集合 转换为 JSON 数据
+    val jackson = new ObjectMapper()
+    val mapToJsonStr = jackson.writeValueAsString(mapData)
+    indexRequest.source(mapToJsonStr)
 
     /** ********************** Map 数据格式 存入 ES End ****************************************/
     /** ********************** XContentBuilder 数据格式 存入 ES Start **************************/
@@ -60,11 +73,11 @@ class RestIndexRequestUtil {
 
     /** ************************* Object 数据格式 存入 ES End ********************************/
 
-    /*************************** ES 同步执行【Synchronous】 Start ********************************/
+    /** ************************* ES 同步执行【Synchronous】 Start ********************************/
     val syncResponse = client.index(indexRequest, RequestOptions.DEFAULT)
 
-    /*************************** ES 同步执行【Synchronous】 End ********************************/
-    /*************************** ES 异步执行【Asynchronous】 Start ********************************/
+    /** ************************* ES 同步执行【Synchronous】 End ********************************/
+    /** ************************* ES 异步执行【Asynchronous】 Start ********************************/
     val aSyncResponse = client.indexAsync(indexRequest, RequestOptions.DEFAULT, new ActionListener[IndexResponse] {
       // 执行成功完成时调用
       override def onResponse(response: IndexResponse): Unit = ???
@@ -73,6 +86,6 @@ class RestIndexRequestUtil {
       override def onFailure(e: Exception): Unit = ???
     })
 
-    /*************************** ES 异步执行【Asynchronous】 End ********************************/
+    /** ************************* ES 异步执行【Asynchronous】 End ********************************/
   }
 }
