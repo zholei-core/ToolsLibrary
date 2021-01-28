@@ -74,16 +74,23 @@ class RestIndexRequestUtil {
     /** ************************* Object 数据格式 存入 ES End ********************************/
 
     /** ************************* ES 同步执行【Synchronous】 Start ********************************/
-    val syncResponse = client.index(indexRequest, RequestOptions.DEFAULT)
+    val syncResponse: IndexResponse = client.index(indexRequest, RequestOptions.DEFAULT)
+    println(syncResponse.getIndex)
 
     /** ************************* ES 同步执行【Synchronous】 End ********************************/
     /** ************************* ES 异步执行【Asynchronous】 Start ********************************/
-    val aSyncResponse = client.indexAsync(indexRequest, RequestOptions.DEFAULT, new ActionListener[IndexResponse] {
+    client.indexAsync(indexRequest, RequestOptions.DEFAULT, new ActionListener[IndexResponse] {
       // 执行成功完成时调用
-      override def onResponse(response: IndexResponse): Unit = ???
+      override def onResponse(response: IndexResponse): Unit = {
+        // 执行成功的 response 的数据  进行处理
+        val indexName = response.getIndex
+        println(s"索引名称为：$indexName")
+      }
 
       // 当整体IndexRequest失败时调用
-      override def onFailure(e: Exception): Unit = ???
+      override def onFailure(e: Exception): Unit = {
+
+      }
     })
 
     /** ************************* ES 异步执行【Asynchronous】 End ********************************/

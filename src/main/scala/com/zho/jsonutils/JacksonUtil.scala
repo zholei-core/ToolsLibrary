@@ -3,9 +3,14 @@ package com.zho.jsonutils
 import java.io.IOException
 import java.util
 
+import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.JsonNode
 
+/**
+ * val jsonFactory = new JsonFactory()   Jackson 此类JSON 解析 来源于 jackson.core 依赖包
+ * val objectMapper = new ObjectMapper() Jackson 此类JSON 解析 来源于 jackson.databind 依赖包
+ */
 object JacksonUtil {
   def main(args: Array[String]): Unit = {
 
