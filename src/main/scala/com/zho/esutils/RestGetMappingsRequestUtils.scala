@@ -22,27 +22,22 @@ import scala.collection.JavaConverters._
  * 通过 RestHighLevelClient API 方式 获取ES 全量 索引 Mappings 信息
  * 程序产出 ，ES 索引名称 与索引对应的 索引列信息
  */
-object EsHighClientUtils extends App {
+object RestGetMappingsRequestUtils extends App {
   // 程序初始化 ， 加载配置文件
   DynamicPropsFileUtil.getProperties("PROJECT")
 
   // 初始化连接， 调用 解析Mappings 方法
-  val esHighClientUtils = new EsHighClientUtils()
-  esHighClientUtils.getEsMappingsData(esHighClientUtils.initConnection())
+  val esHighClientUtils = new RestGetMappingsRequestUtils()
+  esHighClientUtils.getEsMappingsData(InitRestHighClient.initConnection())
 }
 
-class EsHighClientUtils {
+class RestGetMappingsRequestUtils {
   val logger: Logger = LoggerFactory.getLogger(this.getClass.getSimpleName)
 
-  // 初始化 ES 链接
-  def initConnection(): RestHighLevelClient = {
-    new RestHighLevelClient(
-      RestClient.builder(new HttpHost(DynamicPropsFileUtil.ES_NODES, DynamicPropsFileUtil.ES_PORT, DynamicPropsFileUtil.ES_SCHEME))
-    )
-  }
 
+  /** ******************************* GetMappingsRequest Start ************************************************/
   /**
-   * 通过 算子 解析 ES 中索引列的集合
+   * 通过 算子 解析 ES 中索引【Mappings】列的集合
    *
    * @param client ES 连接客户端
    * @return Map[索引名称，List[索引对应的列信息] ]
@@ -95,7 +90,7 @@ class EsHighClientUtils {
   }
 
   /**
-   * 通过 Jackson 解析 ES 中索引列的集合
+   * 通过 Jackson 解析 ES 中索引【Mappings】列的集合
    *
    * @param client ES 连接客户端
    * @return Map[索引名称，List[索引对应的列信息] ]
@@ -136,5 +131,7 @@ class EsHighClientUtils {
     idxNameAndColsMap
 
   }
+
+  /** ******************************* GetMappingsRequest End ************************************************/
 
 }
