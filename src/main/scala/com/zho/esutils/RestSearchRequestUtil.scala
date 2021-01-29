@@ -7,6 +7,7 @@ import org.elasticsearch.common.unit.TimeValue
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.search.Scroll
 import org.elasticsearch.search.builder.SearchSourceBuilder
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder
 
 object RestSearchRequestUtil {
 
@@ -120,5 +121,17 @@ class RestSearchRequestUtil {
     /** ************************* ES 异步执行【Asynchronous】 End ********************************/
 
 
+  }
+
+  /**
+   * 高亮 突出显示结果
+   *
+   * @param client 客户端连接
+   */
+  def searchHighLightBuilderData(client: RestHighLevelClient): Unit = {
+    val searchRequest = new SearchRequest()
+
+    val searchSourceBuilder = new SearchSourceBuilder()
+    val highLightBuilder = new HighlightBuilder()
   }
 }
