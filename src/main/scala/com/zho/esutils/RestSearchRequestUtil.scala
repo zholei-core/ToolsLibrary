@@ -6,6 +6,7 @@ import org.elasticsearch.client.{RequestOptions, RestHighLevelClient}
 import org.elasticsearch.common.unit.TimeValue
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.search.Scroll
+import org.elasticsearch.search.aggregations.{AggregationBuilder, AggregationBuilders}
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder
 
@@ -133,5 +134,33 @@ class RestSearchRequestUtil {
 
     val searchSourceBuilder = new SearchSourceBuilder()
     val highLightBuilder = new HighlightBuilder()
+
+    // 设置突出显示 属性
+    val highlightTitle: HighlightBuilder.Field = new HighlightBuilder.Field("title")
+    highlightTitle.highlighterType("unified")
+    highLightBuilder.field(highlightTitle)
+
+    val highLightUser = new HighlightBuilder.Field("user")
+    highLightBuilder.field(highLightUser)
+
+    // 突出显示属性 添加到 SearchSourceBuilder
+    searchSourceBuilder.highlighter(highLightBuilder)
+
+    // SearchSourceBuilder 添加到 searchRequest 中
+    searchRequest.source(searchSourceBuilder)
   }
+
+  /**
+   * 聚合类 查询操作
+   *
+   * @param client 客户端连接
+   */
+  def searchcAggregationBuilderData(client: RestHighLevelClient): Unit = {
+    val searchRequest = new SearchRequest()
+
+    val searchSourceBuilder = new SearchSourceBuilder()
+    val aggregationBuilder = AggregationBuilders.terms("")
+    searchSourceBuilder.aggregation(aggregationBuilder)
+  }
+
 }
