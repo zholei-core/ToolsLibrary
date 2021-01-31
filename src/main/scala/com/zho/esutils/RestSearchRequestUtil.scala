@@ -161,6 +161,9 @@ class RestSearchRequestUtil {
     val searchSourceBuilder = new SearchSourceBuilder()
     val aggregationBuilder = AggregationBuilders.terms("")
     searchSourceBuilder.aggregation(aggregationBuilder)
+    searchRequest.source(searchSourceBuilder)
+
+    client.search(searchRequest, RequestOptions.DEFAULT)
   }
 
 }
