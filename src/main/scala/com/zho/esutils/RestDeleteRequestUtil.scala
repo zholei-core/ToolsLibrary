@@ -1,8 +1,11 @@
 package com.zho.esutils
 
 import org.elasticsearch.action.ActionListener
+import org.elasticsearch.action.bulk.BulkRequest
 import org.elasticsearch.action.delete.{DeleteRequest, DeleteResponse}
 import org.elasticsearch.client.{RequestOptions, RestHighLevelClient}
+import org.elasticsearch.index.query.QueryBuilders
+import org.elasticsearch.index.reindex.DeleteByQueryRequest
 
 object RestDeleteRequestUtil {
 
@@ -37,5 +40,15 @@ class RestDeleteRequestUtil {
     })
 
     /** ************************* ES 异步执行【Asynchronous】 End ********************************/
+  }
+
+  def deleteByQueryRequest(client: RestHighLevelClient): Unit ={
+
+    val bulkRequest = new BulkRequest()
+    val deleteByqueryRequest = new DeleteByQueryRequest()
+
+    deleteByqueryRequest.indices("")
+    deleteByqueryRequest.setQuery(QueryBuilders.termsQuery("",""))
+//    bulkRequest.add(deleteByqueryRequest)
   }
 }
