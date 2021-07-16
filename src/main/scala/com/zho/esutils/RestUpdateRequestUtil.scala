@@ -23,7 +23,7 @@ class RestUpdateRequestUtil {
     /** ************************* ES 根据 painless语言 Script 更新数据 Start ********************************/
     //    var singletonMap = new SingletonMap[String, Object]("count", 4)
     var singletonMap = new util.HashMap[String, Object]()
-    singletonMap.put("count", 4)
+//    singletonMap.put("count", 4)
     val inLine = new Script(ScriptType.INLINE, "painless", "ctx._source.field += params.count", singletonMap)
     // or
     //    val inLine = new Script(ScriptType.INLINE, null, "ctx._source.field += params.count", singletonMap)
