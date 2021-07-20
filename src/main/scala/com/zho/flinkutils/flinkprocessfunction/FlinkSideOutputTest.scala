@@ -1,6 +1,8 @@
 package com.zho.flinkutils.flinkprocessfunction
 
 import com.zho.flinkutils.flinksource.SensorReading
+import org.apache.flink.runtime.state.StateBackend
+import org.apache.flink.runtime.state.filesystem.FsStateBackend
 import org.apache.flink.streaming.api.functions.ProcessFunction
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.util.Collector
@@ -8,6 +10,10 @@ import org.apache.flink.util.Collector
 object FlinkSideOutputTest {
   def main(args: Array[String]): Unit = {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
+
+    // 状态后端配置
+    //    env.setStateBackend(new FsStateBackend(""))
+
     val inputData = env.socketTextStream("localhost", 9999)
 
     val dataStream = inputData.map(dataElem => {
