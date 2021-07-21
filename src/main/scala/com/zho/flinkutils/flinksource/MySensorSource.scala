@@ -26,7 +26,7 @@ class MySensorSource extends SourceFunction[SensorReading] {
       )
       val curTime: Long = System.currentTimeMillis()
       curTemp.foreach(
-        data => sourceContext.collect(SensorReading(data._1, curTime, data._2))
+        data => sourceContext.collect(SensorReading(data._1, curTime, data._2.formatted("%.2f").toDouble))
 
       )
       //间隔100ms
