@@ -153,6 +153,15 @@
         </dependency>
         <!-- Elasticsearch 相关 End-->
 
+        <!-- Greenplum 相关 Start-->
+        <!-- https://mvnrepository.com/artifact/com.pivotal/greenplum-jdbc -->
+        <dependency>
+            <groupId>com.pivotal</groupId>
+            <artifactId>greenplum-jdbc</artifactId>
+            <version>5.1.4</version>
+        </dependency>
+        <!-- Greenplum 相关 End-->
+
         <!-- Redis 相关依赖 Start-->
         <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
         <dependency>
@@ -234,6 +243,11 @@
     </dependencies>
 
     <repositories>
+        <repository>
+            <id>com.pivotal</id>
+<!--            <url>https://mvnrepository.com/artifact/com.pivotal/greenplum-jdbc</url>-->
+            <url>http://nexus.saas.hand-china.com/content/repositories/rdc/</url>
+        </repository>
         <!-- 中央仓库1 central -->
         <repository>
             <id>repo1</id>
