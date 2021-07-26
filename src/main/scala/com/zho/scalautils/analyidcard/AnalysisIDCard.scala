@@ -26,7 +26,7 @@ import scala.io.{BufferedSource, Source}
  *         第18位	1	0	x	9	8	7	6	5	4	3	2
  *         通过上面得知如果余数是3，则身份证的第18位数字就是9．如果余数是2，则身份证的第18位号码就是x．若
  *         某人的身份证号码的前17位依次是11010219600302011，则他身份证号码的第18位数字是3．
- * date 2021-07-21
+ *         date 2021-07-21
  */
 object AnalysisIDCard {
   def main(args: Array[String]): Unit = {
@@ -35,7 +35,12 @@ object AnalysisIDCard {
     // ^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$
     val idCard = "11022418750909281X"
     //    val regex = "^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$|^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$".r
-    //    println(regex.findAllMatchIn(idCard).toList)
+    //    if (regex.findPrefixOf(idCard) != None) {
+    //      println(regex.findPrefixOf(idCard).get)
+    //    } else {
+    //      println("无效匹配")
+    //    }
+
 
     if (idCard.length == 18) {
       println("************************* 查询结果 *************************")
