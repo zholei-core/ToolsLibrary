@@ -3,6 +3,7 @@ package com.zho.flinkutils.flinkState
 import com.zho.flinkutils.flinksource.SensorReading
 import org.apache.flink.api.common.functions.RichFlatMapFunction
 import org.apache.flink.api.common.state.ValueStateDescriptor
+import org.apache.flink.streaming.api.CheckpointingMode
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.util.Collector
 
@@ -13,6 +14,7 @@ class FlinkStateTest {
 object FlinkStateTest {
   def main(args: Array[String]): Unit = {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
+
     val inputData = env.socketTextStream("localhost", 9999)
 
     val dataStream = inputData.map(dataElem => {
