@@ -1,6 +1,6 @@
-package com.zho.flinkutils.flinkprocessfunction
+package com.zho.flinkutils.flinkstream.flinkprocessfunction
 
-import com.zho.flinkutils.flinksource.SensorReading
+import com.zho.flinkutils.flinkstream.flinksource.SensorReading
 import org.apache.flink.api.common.state.ValueStateDescriptor
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction
 import org.apache.flink.streaming.api.scala._

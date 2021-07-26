@@ -1,6 +1,6 @@
-package com.zho.flinkutils.flinkprocessfunction
+package com.zho.flinkutils.flinkstream.flinkprocessfunction
 
-import com.zho.flinkutils.flinksource.SensorReading
+import com.zho.flinkutils.flinkstream.flinksource.SensorReading
 import org.apache.flink.runtime.state.StateBackend
 import org.apache.flink.runtime.state.filesystem.FsStateBackend
 import org.apache.flink.streaming.api.functions.ProcessFunction

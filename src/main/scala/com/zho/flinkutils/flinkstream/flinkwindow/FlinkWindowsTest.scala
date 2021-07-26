@@ -1,6 +1,6 @@
-package com.zho.flinkutils.flinkwindow
+package com.zho.flinkutils.flinkstream.flinkwindow
 
-import com.zho.flinkutils.flinksource.SensorReading
+import com.zho.flinkutils.flinkstream.flinksource.SensorReading
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.api.windowing.assigners.{EventTimeSessionWindows, SlidingEventTimeWindows, TumblingEventTimeWindows}

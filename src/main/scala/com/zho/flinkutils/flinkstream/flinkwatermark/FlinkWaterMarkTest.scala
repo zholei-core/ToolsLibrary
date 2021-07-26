@@ -1,6 +1,6 @@
-package com.zho.flinkutils.flinkwatermark
+package com.zho.flinkutils.flinkstream.flinkwatermark
 
-import com.zho.flinkutils.flinksource.SensorReading
+import com.zho.flinkutils.flinkstream.flinksource.SensorReading
 import org.apache.flink.api.common.eventtime.{SerializableTimestampAssigner, WatermarkStrategy}
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor

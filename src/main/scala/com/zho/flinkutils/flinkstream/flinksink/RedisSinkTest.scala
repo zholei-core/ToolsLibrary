@@ -1,7 +1,7 @@
-package com.zho.flinkutils.flinksink
+package com.zho.flinkutils.flinkstream.flinksink
 
-import com.zho.flinkutils.flinksource.SensorReading
-import com.zho.flinkutils.flinktransform.TransformTest
+import com.zho.flinkutils.flinkstream.flinksource.SensorReading
+import com.zho.flinkutils.flinkstream.flinktransform.TransformTest
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.connectors.redis.RedisSink
 import org.apache.flink.streaming.connectors.redis.common.config.FlinkJedisPoolConfig

@@ -1,6 +1,6 @@
-package com.zho.flinkutils.flinksink
+package com.zho.flinkutils.flinkstream.flinksink
 
-import com.zho.flinkutils.flinksource.SensorReading
+import com.zho.flinkutils.flinkstream.flinksource.SensorReading
 import org.apache.flink.api.common.serialization.SimpleStringEncoder
 import org.apache.flink.core.fs.Path
 import org.apache.flink.streaming.api.functions.sink.filesystem.StreamingFileSink

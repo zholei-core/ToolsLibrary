@@ -1,4 +1,4 @@
-package com.zho.flinkutils.flinksource
+package com.zho.flinkutils.flinkstream.flinksource
 
 import org.apache.flink.streaming.api.scala._
 

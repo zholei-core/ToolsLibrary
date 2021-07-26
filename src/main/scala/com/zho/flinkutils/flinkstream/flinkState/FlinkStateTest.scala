@@ -1,6 +1,6 @@
-package com.zho.flinkutils.flinkState
+package com.zho.flinkutils.flinkstream.flinkState
 
-import com.zho.flinkutils.flinksource.SensorReading
+import com.zho.flinkutils.flinkstream.flinksource.SensorReading
 import org.apache.flink.api.common.functions.RichFlatMapFunction
 import org.apache.flink.api.common.state.ValueStateDescriptor
 import org.apache.flink.streaming.api.CheckpointingMode

@@ -1,6 +1,6 @@
-package com.zho.flinkutils.flinkcheckpoint
+package com.zho.flinkutils.flinkstream.flinkcheckpoint
 
-import com.zho.flinkutils.flinksource.SensorReading
+import com.zho.flinkutils.flinkstream.flinksource.SensorReading
 import org.apache.flink.api.common.restartstrategy.RestartStrategies
 import org.apache.flink.api.common.time.Time
 import org.apache.flink.streaming.api.CheckpointingMode
@@ -24,6 +24,10 @@ object FlinkCheckpointTest {
     env.getCheckpointConfig.setTolerableCheckpointFailureNumber(2) // 能容忍 checkpoint 的失败次数
 
     // 重启策略配置
+    // fallBackRestart - 当前不做处理，如果上层有重启机制 采用上层；
+    // fixedDelayRestart - 固定时间间隔重启；
+    // noRestart - 无重启策略；
+    // failureRateRestart - 失败率重启
     /**
      * 失败重启
      * first : 失败重启次数
@@ -39,11 +43,14 @@ object FlinkCheckpointTest {
      */
     env.setRestartStrategy(RestartStrategies.failureRateRestart(5, Time.of(5, TimeUnit.MINUTES), Time.of(10, TimeUnit.SECONDS)))
 
+
     // dataSource Reading
     val inputData = env.socketTextStream("localhost", 9999)
     val dataStream = inputData.map(dataElem => {
       val arr = dataElem.split(",")
       new SensorReading(arr(0), arr(1).toLong, arr(2).toDouble)
     })
+      // * 自定义 SavePoint 时， 需要设置 id 方便集群迁移 检查点重启，的唯一标识； 默认时根据算子随机的，如果算子更改 这个ID 也会随之更改，便不能 根据存储检查点 进行程序恢复 *
+      .uid("1")
   }
 }

@@ -1,6 +1,6 @@
-package com.zho.flinkutils.flinksink
+package com.zho.flinkutils.flinkstream.flinksink
 
-import com.zho.flinkutils.flinksource.SensorReading
+import com.zho.flinkutils.flinkstream.flinksource.SensorReading
 import org.apache.flink.api.common.functions.RuntimeContext
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.connectors.elasticsearch.{ElasticsearchSinkFunction, RequestIndexer}
