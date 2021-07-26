@@ -30,14 +30,26 @@ import scala.io.{BufferedSource, Source}
 object AnalysisIDCard {
   def main(args: Array[String]): Unit = {
 
-    val idCard = "11010219600302011X"
+    // 身份证 15位、18位 正则匹配
+    // ^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$
+    val idCard = "11022418750909281X"
+    //    val regex = "^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$|^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$".r
+    //    println(regex.findAllMatchIn(idCard).toList)
+
 
     if (idCard.length == 18) {
       println("************************* 查询结果 *************************")
       println(s"*　　 您查询的身份证号码 　　: $idCard")
       println(s"*　　 性别　　　　　　　 　　: ${getSexByIdCard(idCard)}")
       println(s"*　　 出生日期　　　　　 　　: ${getYearByIdCard(idCard)} 年 ${getMontyByIdCard(idCard)} 月 ${getDayByIdCard(idCard)}")
-      println(s"*　　 原籍地　　　　　　 　　: ${getAddressByIdCard(idCard)}")
+      println(s"*　　 原籍地　　　　　　 　　: ${getAddressByIdCard(idCard)} ${
+        if (idCard.substring(17, 18).equals(getCheckCode(idCard))) {
+          ""
+        } else {
+          "(提示：该18位身份证号校验位不正确)"
+        }
+      } ")
+      println(s"*    身份证效验码　　　　　 : ${getCheckCode(idCard)}")
       println("************************* 查询结果 *************************")
     } else {
       println("ID Card Is Error")
@@ -128,5 +140,31 @@ object AnalysisIDCard {
       (codeAreaList(0), codeAreaList(1))
     })
     resultData.filter(_._1.equals(addressCode)).map(_._2).toList.head
+  }
+
+  /**
+   *
+   * @param idCard 身份证号码
+   * @return 身份证效验码
+   */
+  def getCheckCode(idCard: String): String = {
+    val idCardElemList = idCard.toList
+    val checkCode: Int = idCardElemList(0) * 7 + idCardElemList(1) * 9 + idCardElemList(2) * 10 + idCardElemList(3) * 5 + idCardElemList(4) * 8 + idCardElemList(5) * 4 + idCardElemList(6) * 2 + idCardElemList(7) * 1 + idCardElemList(8) * 6 + idCardElemList(9) * 3 + idCardElemList(10) * 7 + idCardElemList(11) * 9 + idCardElemList(12) * 10 + idCardElemList(13) * 5 + idCardElemList(14) * 8 + idCardElemList(15) * 4 + idCardElemList(16) * 2
+
+    checkCode % 11 match {
+      case 0 => "1"
+      case 1 => "0"
+      case 2 => "X"
+      case 3 => "9"
+      case 4 => "8"
+      case 5 => "7"
+      case 6 => "6"
+      case 7 => "5"
+      case 8 => "4"
+      case 9 => "3"
+      case 10 => "2"
+      case _ => null
+    }
+
   }
 }
