@@ -33,7 +33,7 @@ object AnalysisIDCard {
 
     // 身份证 15位、18位 正则匹配
     // ^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$
-    val idCard = "11022418750909281X"
+    val idCard = "532233196910013124"
     // 正则匹配身份证号
     //    val regex = "^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$|^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$".r
     //    if (regex.findPrefixOf(idCard) != None) {
@@ -42,19 +42,12 @@ object AnalysisIDCard {
     //      println("无效匹配")
     //    }
 
-
     if (idCard.length == 18) {
       println("************************* 查询结果 *************************")
       println(s"*　　 您查询的身份证号码 　　: $idCard")
       println(s"*　　 性别　　　　　　　 　　: ${getSexByIdCard(idCard)}")
       println(s"*　　 出生日期　　　　　 　　: ${getYearByIdCard(idCard)} 年 ${getMontyByIdCard(idCard)} 月 ${getDayByIdCard(idCard)}")
-      println(s"*　　 原籍地　　　　　　 　　: ${getAddressByIdCard(idCard)} ${
-        if (idCard.substring(17, 18).equals(getCheckCode(idCard))) {
-          ""
-        } else {
-          "(提示：该18位身份证号校验位不正确)"
-        }
-      } ")
+      println(s"*　　 原籍地　　　　　　 　　: ${getAddressByIdCard(idCard)} ${if (idCard.substring(17, 18).equals(getCheckCode(idCard))) {""} else {"(提示：该18位身份证号校验位不正确)"}} ")
       println(s"*    身份证效验码　　　　　 : ${getCheckCode(idCard)}")
       println("************************* 查询结果 *************************")
     } else {
@@ -145,7 +138,8 @@ object AnalysisIDCard {
       val codeAreaList: Array[String] = elem.split(" ")
       (codeAreaList(0), codeAreaList(1))
     })
-    resultData.filter(_._1.equals(addressCode)).map(_._2).toList.head
+    val areaNameList=resultData.filter(_._1.equals(addressCode)).map(_._2).toList
+    if(areaNameList.nonEmpty) areaNameList.head else "未知地区，请核验输入信息是否正确"
   }
 
   /**
@@ -155,7 +149,8 @@ object AnalysisIDCard {
    */
   def getCheckCode(idCard: String): String = {
     val idCardElemList = idCard.toList
-    val checkCode: Int = idCardElemList.head * 7 + idCardElemList(1) * 9 + idCardElemList(2) * 10 + idCardElemList(3) * 5 + idCardElemList(4) * 8 + idCardElemList(5) * 4 + idCardElemList(6) * 2 + idCardElemList(7) * 1 + idCardElemList(8) * 6 + idCardElemList(9) * 3 + idCardElemList(10) * 7 + idCardElemList(11) * 9 + idCardElemList(12) * 10 + idCardElemList(13) * 5 + idCardElemList(14) * 8 + idCardElemList(15) * 4 + idCardElemList(16) * 2
+
+    val checkCode: Int = idCardElemList(0) * 7 + idCardElemList(1) * 9 + idCardElemList(2) * 10 + idCardElemList(3) * 5 + idCardElemList(4) * 8 + idCardElemList(5) * 4 + idCardElemList(6) * 2 + idCardElemList(7) * 1 + idCardElemList(8) * 6 + idCardElemList(9) * 3 + idCardElemList(10) * 7 + idCardElemList(11) * 9 + idCardElemList(12) * 10 + idCardElemList(13) * 5 + idCardElemList(14) * 8 + idCardElemList(15) * 4 + idCardElemList(16) * 2
 
     checkCode % 11 match {
       case 0 => "1"

@@ -36,7 +36,7 @@ object FlinkWaterMarkTest {
 
     )
 
-
+env.execute()
   }
 
 }
