@@ -23,11 +23,11 @@
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.scala-lang/scala-library -->
-                <dependency>
-                    <groupId>org.scala-lang</groupId>
-                    <artifactId>scala-library</artifactId>
-                    <version>2.12.8</version>
-                </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.12.8</version>
+        </dependency>
 
         <!-- flink 相关-->
         <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-connector-kafka -->
@@ -57,6 +57,38 @@
             <artifactId>flink-clients_2.12</artifactId>
             <version>${flink.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-table-planner-blink -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner-blink_2.12</artifactId>
+            <version>${flink.version}</version>
+            <!--            <scope>test</scope>-->
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-csv -->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-csv</artifactId>
+            <version>${flink.version}</version>
+<!--            <scope>test</scope>-->
+        </dependency>
+
+
+        <!--        https://mvnrepository.com/artifact/org.apache.flink/flink-table-planner-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-table-planner_2.12</artifactId>-->
+<!--            <version>${flink.version}</version>-->
+<!--            &lt;!&ndash;                                <scope>provided</scope>&ndash;&gt;-->
+<!--        </dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/org.apache.flink/flink-table-api-scala-bridge -->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.flink</groupId>-->
+        <!--            <artifactId>flink-table-api-scala-bridge_2.12</artifactId>-->
+        <!--            <version>${flink.version}</version>-->
+        <!--        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/org.apache.bahir/flink-connector-redis -->
         <dependency>
@@ -245,7 +277,6 @@
     <repositories>
         <repository>
             <id>com.pivotal</id>
-<!--            <url>https://mvnrepository.com/artifact/com.pivotal/greenplum-jdbc</url>-->
             <url>http://nexus.saas.hand-china.com/content/repositories/rdc/</url>
         </repository>
         <!-- 中央仓库1 central -->
