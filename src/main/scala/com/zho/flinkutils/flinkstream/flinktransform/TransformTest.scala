@@ -2,7 +2,6 @@ package com.zho.flinkutils.flinkstream.flinktransform
 
 import org.apache.flink.streaming.api.scala._
 
-import scala.{Seq, collection}
 
 case class TransformTest(
                           id: String, timestamp: Long, temperature: Double

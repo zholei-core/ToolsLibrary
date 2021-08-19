@@ -38,7 +38,8 @@ class MyJdbcSinkFunc() extends RichSinkFunction[SensorReading] {
     updatePstm = conn.prepareStatement("update sensor_temp set temp=? where id=?")
   }
 
-  override def invoke(value: SensorReading, context: SinkFunction.Context[_]): Unit = {
+
+  override def invoke(value: SensorReading): Unit = {
     // 先执行更新操作，如果查到就更新
     updatePstm.setDouble(1, value.temperature)
     updatePstm.setString(2, value.id)
