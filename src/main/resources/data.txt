@@ -1,4 +1,3 @@
-www
-eee
-fff
-ggg
+1,zhangsan,16
+2,lisi,18
+3,wangwu,17
