@@ -39,18 +39,21 @@ class CommandLineUtil extends LoggerFactoryUtil {
     try {
       cmd = parser.parse(commandOptions, args)
     } catch {
-      case ex: Exception => {
+      case _: Exception =>
         val hf: HelpFormatter = new HelpFormatter()
         hf.setWidth(110)
         this.logger.error("This input parameter don't satisfy this program, please see the help\n",
           hf.printHelp("OracleTest", commandOptions, true))
         System.exit(0)
-      }
     }
     cmd
   }
 }
 
+/**
+ * Update Date:2021-08-28 15:00
+ * Anthor:zhoulei
+ */
 object CommandLineUtil extends LoggerFactoryUtil {
 
   def main(args: Array[String]): Unit = {
