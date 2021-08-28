@@ -30,10 +30,11 @@ class ImpalaFactory {
       Class.forName(driver)
       if (loginUser != null) {
         conn = loginUser.doAs(new PrivilegedExceptionAction[AnyRef]() {
-          override def run: Any = {
+          override def run: Connection = {
             var tcon: Connection = null
-            try tcon = DriverManager.getConnection(url)
-            catch {
+            try {
+              tcon = DriverManager.getConnection(url)
+            } catch {
               case e: SQLException =>
                 e.printStackTrace()
             }
