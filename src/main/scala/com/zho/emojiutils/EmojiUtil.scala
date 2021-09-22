@@ -53,6 +53,4 @@ object EmojiUtil {
     println(EmojiParser.parseToUnicode(strHtml))
   }
 }
-class EmojiUtil {
 
-}

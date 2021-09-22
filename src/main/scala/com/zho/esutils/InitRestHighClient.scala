@@ -1,6 +1,5 @@
 package com.zho.esutils
 
-import com.zho.dynamicloadutils.DynamicPropsFileUtil
 import org.apache.http.HttpHost
 import org.elasticsearch.client.{RestClient, RestHighLevelClient}
 
@@ -12,7 +11,7 @@ object InitRestHighClient {
    */
   def initConnection(): RestHighLevelClient = {
     new RestHighLevelClient(
-      RestClient.builder(new HttpHost(DynamicPropsFileUtil.ES_NODES, DynamicPropsFileUtil.ES_PORT, DynamicPropsFileUtil.ES_SCHEME))
+      RestClient.builder(new HttpHost("ES_NODES", 9092, "ES_SCHEME"))
     )
   }
 }

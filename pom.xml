@@ -169,6 +169,7 @@
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
             <version>3.2.1</version>
+            <scope>provided</scope>
         </dependency>
         <!-- Hadoop 相关 End-->
 

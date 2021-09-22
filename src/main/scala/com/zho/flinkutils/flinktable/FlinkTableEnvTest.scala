@@ -12,7 +12,7 @@ object FlinkTableEnvTest {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     val tableEnv = StreamTableEnvironment.create(env)
     /*
-        // 1.1 基于老版本planner 的刘处理
+        // 1.1 基于老版本planner 的流处理
         val settings = EnvironmentSettings
           .newInstance()
           .inStreamingMode()

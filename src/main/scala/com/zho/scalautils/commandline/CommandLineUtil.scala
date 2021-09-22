@@ -9,7 +9,7 @@ import org.apache.commons.cli._
  * addOption 可选参数
  * addOption  false  传入参数为 --help    true 传入参数为 --source_db_type mysql
  */
-class CommandLineUtil extends LoggerFactoryUtil {
+trait CommandLineUtil extends LoggerFactoryUtil {
 
   def parameterAnalysis(args: Array[String]): CommandLine = {
     val commandOptions = new Options()
@@ -54,13 +54,16 @@ class CommandLineUtil extends LoggerFactoryUtil {
  * Update Date:2021-08-28 15:00
  * Anthor:zhoulei
  */
-object CommandLineUtil extends LoggerFactoryUtil {
+object CommandLineUtil extends CommandLineUtil with LoggerFactoryUtil {
 
   def main(args: Array[String]): Unit = {
 
-    val arg = Array[String]("--source_db_type","oracle")
-
-    println(new CommandLineUtil().parameterAnalysis(arg).getOptionValue("source_db_type"))
+    val arg = Array[String]("--source_db_type", "oracle", "--split_by", "update")
+    println("First element : " + arg.head)
+    println("Last element : " + arg.last)
+    println(parameterAnalysis(arg).getOptionValue("source_db_type"))
+    println(parameterAnalysis(arg).getOptionValue("split_by"))
+    println(parameterAnalysis(arg).hasOption("sync_mode"))
 
 
   }

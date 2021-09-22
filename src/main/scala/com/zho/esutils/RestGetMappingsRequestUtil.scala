@@ -1,8 +1,10 @@
 package com.zho.esutils
 
-import java.io.IOException
 
-import com.zho.dynamicloadutils.DynamicPropsFileUtil
+
+import com.zho.propertiesutils.ReadProperties
+
+import java.io.IOException
 import org.apache.http.HttpHost
 import org.codehaus.jackson.JsonNode
 import org.codehaus.jackson.map.ObjectMapper
@@ -22,9 +24,9 @@ import scala.collection.JavaConverters._
  * 通过 RestHighLevelClient API 方式 获取ES 全量 索引 Mappings 信息
  * 程序产出 ，ES 索引名称 与索引对应的 索引列信息
  */
-object RestGetMappingsRequestUtil extends App {
+object RestGetMappingsRequestUtil extends ReadProperties with App {
   // 程序初始化 ， 加载配置文件
-  DynamicPropsFileUtil.getProperties("PROJECT")
+  getPropertiesDynamic("local","config.properties")
 
   // 初始化连接， 调用 解析Mappings 方法
   val esHighClientUtils = new RestGetMappingsRequestUtil()

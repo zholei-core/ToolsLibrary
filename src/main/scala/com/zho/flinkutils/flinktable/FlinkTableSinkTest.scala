@@ -1,9 +1,11 @@
 package com.zho.flinkutils.flinktable
 
 import org.apache.flink.streaming.api.scala._
-import org.apache.flink.table.api.DataTypes
+import org.apache.flink.table.api._
 import org.apache.flink.table.api.bridge.scala._
 import org.apache.flink.table.descriptors.{Csv, FileSystem, Schema}
+
+
 
 object FlinkTableSinkTest {
 
@@ -22,8 +24,15 @@ object FlinkTableSinkTest {
       )
       .createTemporaryTable("inputTable")
 
+    val sensorTable: Table = tableEnv.from("inputTable")
 
-    tableEnv.from("inputTable").toAppendStream[(String,Long,Double)].print()
+    val result: Table = sensorTable.select('id,'temperature.count())
+//      .filter('id == "sensor_1")
+
+
+    tableEnv.from("inputTable").toAppendStream[(String,Long,Double)].print("temp View:")
+    sensorTable.toAppendStream[(String,Long,Double)].print("Table:")
+//    result.toRetractStream[(String,Long)].print("Table agg:")
     env.execute("Flink Table Example Sink")
   }
 
