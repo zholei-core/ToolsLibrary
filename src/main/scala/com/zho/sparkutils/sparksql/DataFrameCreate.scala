@@ -1,41 +1,112 @@
 package com.zho.sparkutils.sparksql
 
 import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.{DataFrame, SparkSession}
-
+import org.apache.spark.sql.types._
+import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 
 object DataFrameCreate {
 
-    def main(args: Array[String]): Unit = {
-      val session = SparkSession
-        .builder()
-        .appName(this.getClass.getSimpleName)
-        .master("local[2]")
-        .getOrCreate()
-      val nameRDD: RDD[String] = session.sparkContext.makeRDD(Array(
-        """
-          |{"name":"zhangsan","age":18}
+  def main(args: Array[String]): Unit = {
+    val session: SparkSession = SparkSession.builder().appName(this.getClass.getSimpleName).master("local[2]").getOrCreate()
+
+    //    readRddJsonToDataset(session)
+    readFileTransRDDAddSchemaToDataFrame(session)
+
+  }
+
+  /**
+   * 自定义 Schema 创建 DataFrame  -> StructType
+   *
+   * @param session SparkSession
+   */
+  def readFileTransRDDAddSchemaToDataFrame(session: SparkSession): Unit = {
+
+    val peopleRDD: RDD[String] = session.sparkContext.textFile("/Users/zhoulei/Documents/workspaces/ToolsLibrary/src/main/resources/data.txt")
+
+    // 创建 Schema 结构信息
+    val schemaString = "no name age"
+    val fields: Array[StructField] = schemaString.split(" ").map(fieldName => StructField(fieldName, StringType, nullable = true))
+    val schema: StructType = StructType(fields)
+
+    // 创建 RDD【Row】 数据
+    val rowRDD: RDD[Row] = peopleRDD.map(_.split(",")).map(attributes => Row(attributes(0), attributes(1), attributes(2)))
+
+    val peopleDF = session.createDataFrame(rowRDD, schema)
+    peopleDF.show(false)
+
+  }
+
+  /**
+   * 用户样例类
+   *
+   * @param name 用户名
+   * @param age  年龄
+   */
+  case class Person(name: String, age: String)
+
+  /**
+   * 样例类 通过隐式转换 转换为Dataset 进行数据处理
+   *
+   * @param session SparkSession
+   */
+  def readCaseClassToTransDataFrame(session: SparkSession): Unit = {
+
+    import session.implicits._
+
+    val objFrame: Dataset[Person] = Seq(Person("wangwu", "22")).toDS()
+    objFrame.show(false)
+
+    val seqFrame: Dataset[Int] = Seq(1, 2, 3).toDS()
+    seqFrame.show(false)
+  }
+
+  /**
+   * 读取json 文件 字符串路径  转换为DataFrame 进行数据操作  (path:String)  or  (path:String*)
+   *
+   * @param session SparkSession
+   */
+  def readJsonFileToDataFrame(session: SparkSession): Unit = {
+
+    val jsonFrame: DataFrame = session.read.json(
+      "/Users/zhoulei/Documents/workspaces/ToolsLibrary/src/main/resources/json1data.txt",
+      "/Users/zhoulei/Documents/workspaces/ToolsLibrary/src/main/resources/json2data.txt"
+    )
+
+    jsonFrame.show(false)
+  }
+
+  /**
+   * SparkContext makeRDD 将json 数组  转化为 RDD[String] , 隐士转化为 DataSet 通过 read.json 转化DF 进行数据操作
+   *
+   * @param session SparkSession
+   */
+  def readRddJsonToDataset(session: SparkSession): Unit = {
+
+    import session.implicits._
+    val nameRDD: RDD[String] = session.sparkContext.makeRDD(Array(
+      """
+        |{"name":"zhangsan","age":18}
       """.stripMargin
-        ,
-        """
-          |{"name":"lisi","age":11}
+      ,
+      """
+        |{"name":"lisi","age":11}
       """.stripMargin
-      ))
-      val scoreRDD: RDD[String] = session.sparkContext.makeRDD(Array(
-        """
-          |{"name":"zhangsan","score":100}
+    ))
+    val scoreRDD: RDD[String] = session.sparkContext.makeRDD(Array(
+      """
+        |{"name":"zhangsan","score":100}
       """.stripMargin
-        ,
-        """
-          |{"name":"lisi","score":200}
+      ,
+      """
+        |{"name":"lisi","score":200}
       """.stripMargin
-      ))
-      val nameDF: DataFrame = session.read.json(nameRDD)
-      val scoreDF: DataFrame = session.read.json(scoreRDD)
-      nameDF.createOrReplaceTempView("name")
-      scoreDF.createOrReplaceTempView("score")
-      val result = session.sql("select name.name,name.age,score.score from name,score where name.name = score.name")
-      result.show()
-    }
+    ))
+    val nameDF: DataFrame = session.read.json(nameRDD.toDS())
+    val scoreDF: DataFrame = session.read.json(scoreRDD.toDS())
+    nameDF.createOrReplaceTempView("name")
+    scoreDF.createOrReplaceTempView("score")
+    val result = session.sql("select name.name,name.age,score.score from name,score where name.name = score.name")
+    result.show()
+  }
 
 }
