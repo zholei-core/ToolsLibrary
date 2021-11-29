@@ -127,7 +127,8 @@ object DataFrameCreate {
     //    +-------+----+
     //    |county |name|
     //    +-------+----+
-    //    |beijing|张三|
+    //    |beijing |张三|
+    //    |shanghai|李四|
     //    +-------+----+
     val result = session.read.json(datasetString)
     result.show(false)
