@@ -121,8 +121,9 @@ object DataFrameCreate {
     //    |value                             |
     //    +----------------------------------+
     //    |{"name":"张三","county":"beijing"}|
+    //    |{"name":"李四","county":"shanghai"}|
     //    +----------------------------------+
-    val datasetString: Dataset[String] = session.createDataset("""{"name":"张三","county":"beijing"}""" :: Nil)
+    val datasetString: Dataset[String] = session.createDataset(s"""{"name":"张三","county":"beijing"}""" :: """{"name":"李四","county":"shanghai"}""" :: Nil)
     //    +-------+----+
     //    |county |name|
     //    +-------+----+
