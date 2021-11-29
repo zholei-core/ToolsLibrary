@@ -109,4 +109,27 @@ object DataFrameCreate {
     result.show()
   }
 
+  /**
+   * 创建 Dataset[String] JSON 数据  ， 通过 read.json  转化为DataFrame
+   *
+   * @param session SparkSession
+   */
+  def createDatasetToDataFrame(session: SparkSession): Unit = {
+
+    import session.implicits._
+    //    +----------------------------------+
+    //    |value                             |
+    //    +----------------------------------+
+    //    |{"name":"张三","county":"beijing"}|
+    //    +----------------------------------+
+    val datasetString: Dataset[String] = session.createDataset("""{"name":"张三","county":"beijing"}""" :: Nil)
+    //    +-------+----+
+    //    |county |name|
+    //    +-------+----+
+    //    |beijing|张三|
+    //    +-------+----+
+    val result = session.read.json(datasetString)
+    result.show(false)
+  }
+
 }
