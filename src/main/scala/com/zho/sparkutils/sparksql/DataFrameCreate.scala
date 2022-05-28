@@ -1,6 +1,7 @@
 package com.zho.sparkutils.sparksql
 
 import org.apache.spark.rdd.RDD
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 
@@ -9,8 +10,15 @@ object DataFrameCreate {
   def main(args: Array[String]): Unit = {
     val session: SparkSession = SparkSession.builder().appName(this.getClass.getSimpleName).master("local[2]").getOrCreate()
 
+    val instan = udf((name: String) => {
+       val result = "DB"+name.replaceAll("[a-zA-Z@_]+"," ").trim.replace(" ","-")
+      result
+    })
     //    readRddJsonToDataset(session)
-    readFileTransRDDAddSchemaToDataFrame(session)
+    readTextFileTransRDDAddSchemaToDataFrame(session)
+      .withColumn("name",instan(col("name")).cast("String"))
+      .withColumnRenamed("name","instanceid")
+      .show(false)
 
   }
 
@@ -19,7 +27,7 @@ object DataFrameCreate {
    *
    * @param session SparkSession
    */
-  def readFileTransRDDAddSchemaToDataFrame(session: SparkSession): Unit = {
+  def readTextFileTransRDDAddSchemaToDataFrame(session: SparkSession): DataFrame = {
 
     val peopleRDD: RDD[String] = session.sparkContext.textFile("/Users/zhoulei/Documents/workspaces/ToolsLibrary/src/main/resources/data.txt")
 
@@ -31,8 +39,7 @@ object DataFrameCreate {
     // 创建 RDD【Row】 数据
     val rowRDD: RDD[Row] = peopleRDD.map(_.split(",")).map(attributes => Row(attributes(0), attributes(1), attributes(2)))
 
-    val peopleDF = session.createDataFrame(rowRDD, schema)
-    peopleDF.show(false)
+    session.createDataFrame(rowRDD, schema)
 
   }
 
@@ -132,6 +139,22 @@ object DataFrameCreate {
     //    +-------+----+
     val result = session.read.json(datasetString)
     result.show(false)
+  }
+
+  /**
+   * 读取 csv 文件 ， 创建 DataFrame
+   *
+   * @param session SparkSession
+   */
+  def readCSVToDataFrame(session: SparkSession): Unit = {
+
+    val path = "/Users/zhoulei/Documents/workspaces/ToolsLibrary/src/main/resources/data.csv"
+
+    // 单独 option 参数
+    session.read.option("delimiter", ",").option("header", "true").csv(path).show(false)
+
+    // 通过 options 传入map 参数
+    session.read.options(Map("delimiter" -> ",", "header" -> "true")).csv(path).show(false)
   }
 
 }
