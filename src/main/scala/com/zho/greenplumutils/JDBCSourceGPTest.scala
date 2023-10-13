@@ -28,7 +28,7 @@ object JDBCSourceGPTest {
     Class.forName("com.pivotal.jdbc.GreenplumDriver")
     println("测试加载数据库成功");
 //    val con = DriverManager.getConnection(greenplum_url, greenplum_user, greenplum_password)
-        val con = DriverManager.getConnection("jdbc:pivotal:greenplum://10.226.96.27:5432;DatabaseName=ads_dev", "bi_it_ms_vwbi_dev", "vwbi@123")
+        val con = DriverManager.getConnection("jdbc:pivotal:greenplum://host:5432;DatabaseName=ads_dev", "username", "pwd")
     println("测试数据库链接成功");
     con
   }
