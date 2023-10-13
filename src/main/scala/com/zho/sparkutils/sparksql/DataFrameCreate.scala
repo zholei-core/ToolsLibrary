@@ -15,11 +15,12 @@ object DataFrameCreate {
       result
     })
     //    readRddJsonToDataset(session)
-    readTextFileTransRDDAddSchemaToDataFrame(session)
+    val resultDf = readTextFileTransRDDAddSchemaToDataFrame(session)
       .withColumn("name",instan(col("name")).cast("String"))
       .withColumnRenamed("name","instanceid")
-      .show(false)
-
+    resultDf.createOrReplaceTempView("test")
+    println(session.sql("select 1 from test limit 1").count()==1L)
+    println(session.sql("select * from test limit 1").count())
   }
 
   /**
@@ -29,7 +30,7 @@ object DataFrameCreate {
    */
   def readTextFileTransRDDAddSchemaToDataFrame(session: SparkSession): DataFrame = {
 
-    val peopleRDD: RDD[String] = session.sparkContext.textFile("/Users/zhoulei/Documents/workspaces/ToolsLibrary/src/main/resources/data.txt")
+    val peopleRDD: RDD[String] = session.sparkContext.textFile("/Users/zhoulei/Documents/workspaces/zholei-core/ToolsLibrary/src/main/resources/data.txt")
 
     // 创建 Schema 结构信息
     val schemaString = "no name age"

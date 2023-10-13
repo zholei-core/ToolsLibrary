@@ -30,31 +30,31 @@ object TransformTest {
     //    dataStream.print()
 
     // 3. 拆分流 操作
-    val splitStream = dataStream.split(data =>
-      if (data.temperature > 30.0) Seq("Heigh") else Seq("low")
-    )
-    val heighStream = splitStream.select("Heigh")
-    val lowStream = splitStream.select("low")
-    val allStream = splitStream.select("Heigh", "low")
-
-    //    heighStream.print("Heigh")
-    //    lowStream.print("low")
-    //    allStream.print("all")
-
-    // 4. 合并流 connect
-    val lowStreamTuple = lowStream.map(data=>(data.id,data.temperature))
-    val  connectedStream = heighStream.connect(lowStreamTuple)
-    val coMapResultStream =connectedStream.map(
-      warnData=>  (warnData.id,warnData.timestamp,"Warning")
-        ,
-        lowData=>(lowData._1,"Health")
-    )
-
-//    coMapResultStream.print("Connection Stream")
-
-    // 5. 合并流 union
-    val unionStream = heighStream.union(lowStream)
-    unionStream.print("Union Stream")
+//    val splitStream = dataStream.split(data =>
+//      if (data.temperature > 30.0) Seq("Heigh") else Seq("low")
+//    )
+//    val heighStream = splitStream.select("Heigh")
+//    val lowStream = splitStream.select("low")
+//    val allStream = splitStream.select("Heigh", "low")
+//
+//    //    heighStream.print("Heigh")
+//    //    lowStream.print("low")
+//    //    allStream.print("all")
+//
+//    // 4. 合并流 connect
+//    val lowStreamTuple = lowStream.map(data=>(data.id,data.temperature))
+//    val  connectedStream = heighStream.connect(lowStreamTuple)
+//    val coMapResultStream =connectedStream.map(
+//      warnData=>  (warnData.id,warnData.timestamp,"Warning")
+//        ,
+//        lowData=>(lowData._1,"Health")
+//    )
+//
+////    coMapResultStream.print("Connection Stream")
+//
+//    // 5. 合并流 union
+//    val unionStream = heighStream.union(lowStream)
+//    unionStream.print("Union Stream")
 
     env.execute("Transform Test")
   }
